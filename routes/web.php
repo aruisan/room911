@@ -29,20 +29,25 @@ Route::get('/login', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/employees-import', [EmployeeController::class, 'formImport'])->name('employees.formImport');
-    Route::post('/employees-import', [EmployeeController::class, 'import'])->name('employees.import');
 
-    Route::get('/employees/{employee}/history/download', [EmployeeController::class, 'downloadHistory'])->name('employees.history.download');
+    Route::get('/dashboard', function(){
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+    
+    Route::middleware(['checkUserType'])->group(function () {
+        Route::get('/employees-import', [EmployeeController::class, 'formImport'])->name('employees.formImport');
+        Route::post('/employees-import', [EmployeeController::class, 'import'])->name('employees.import');
 
+        Route::get('/employees/{employee}/history/download', [EmployeeController::class, 'downloadHistory'])->name('employees.history.download');
 
-
-    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
-    Route::get('/employees/{employee}', [EmployeeController::class, 'history'])->name('employees.history');
-    Route::get('/employees/edit/{employee}', [EmployeeController::class, 'edit'])->name('employees.edit');
-    Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
-    Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
-    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+        Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+        Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+        Route::get('/employees/{employee}', [EmployeeController::class, 'history'])->name('employees.history');
+        Route::get('/employees/edit/{employee}', [EmployeeController::class, 'edit'])->name('employees.edit');
+        Route::post('/employees', [EmployeeController::class, 'store'])->name('employees.store');
+        Route::put('/employees/{employee}', [EmployeeController::class, 'update'])->name('employees.update');
+        Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    });
 });
 Route::post('/access-log', [AccessLogController::class, 'store'])->name('access_log.store');
 Route::get('/room-911/{employee}', [RoomController::class, 'index'])->name('room');

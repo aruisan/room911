@@ -1,6 +1,7 @@
 <script setup>
 import { ref} from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import NavLink from '@/Components/NavLink.vue';
 import { Inertia } from '@inertiajs/inertia';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Modal from '@/Components/Modal.vue';
@@ -42,12 +43,13 @@ const submitForm = () => {
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen  bg-gradient-to-r from-gray-500 to-blue-500 selection:text-white"
     >
         <div v-if="canLogin" class="sm:fixed sm:top-0 sm:right-0 p-6 text-end">
-            <Link
+            <NavLink 
                 v-if="$page.props.auth.user"
-                :href="route('employees.index')"
-                class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
-                >Employees List</Link
+                :href="route('dashboard')" 
+                :active="route().current('employee.index')"
             >
+                Dashboard
+            </NavLink>
 
             <template v-else>
                 <PrimaryButton @click="goLogin">
